@@ -35,6 +35,7 @@ function PlannerTable() {
   const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
   const [meals, setMeals] = useState(Array(7).fill(null).map(() => ['', '', '']));
   const [shoppingList, setShoppingList] = useState([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const handleChange = (dayIndex, mealIndex, value) => {
     const updatedMeals = meals.map(row => [...row]);
@@ -127,7 +128,51 @@ onChange={(e) => handleChange(index, 2, e.target.value)}
           </ul>
         </div>
       )}
+
+      {/* Меню-бургер */}
+      <button 
+  onClick={() => setIsSidebarOpen(!isSidebarOpen)} 
+  style={{
+    fontSize: '24px',
+    cursor: 'pointer',
+    background: 'none',
+    border: 'none',
+    position: 'fixed',
+    top: '20px',
+    left: '20px',
+    zIndex: 1101,
+    color: 'orange',
+  }}
+>
+  ☰
+</button>
+
+
+{/* Боковая панель */}
+<div style={{
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '250px',
+  height: '100%',
+  backgroundColor: '#f4f4f4',
+  padding: '20px',
+  boxShadow: '2px 0 5px rgba(0,0,0,0.2)',
+  transition: 'transform 0.3s ease',
+  transform: isSidebarOpen ? 'translateX(0)' : 'translateX(-100%)',
+  zIndex: 3,
+}}>
+  <h2>Меню</h2>
+  <ul style={{ listStyle: 'none', padding: 0 }}>
+    <li><a href="#">Главная</a></li>
+    <li><a href="#">О приложении</a></li>
+    <li><a href="#">Контакты</a></li>
+    <li style={{ cursor: 'pointer' }}>dark-mode</li>
+  </ul>
+</div>
     </div>
+
+
   );
 }
 
