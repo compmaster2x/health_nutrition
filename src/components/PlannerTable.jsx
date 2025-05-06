@@ -1,7 +1,7 @@
 import ingredientDatabase from '../data/ingredientsDatabase.js'
 import { useState } from 'react';
 import plannerStyles from './styles/plannerTableStyles.js';
-import styles from './styles/components.module.css'; // путь поправь, если другой
+import styles from './styles/components.module.css'; 
 
 function PlannerTable() {
   const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
@@ -9,12 +9,13 @@ function PlannerTable() {
   const [shoppingList, setShoppingList] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [darkMode, setDarkMode] = useState(false);
-
-  const handleChange = (dayIndex, mealIndex, value) => {
-    const updatedMeals = meals.map(row => [...row]);
-    updatedMeals[dayIndex][mealIndex] = value.toLowerCase();
-    setMeals(updatedMeals);
-  };
+    const mealOptions = Object.keys(ingredientDatabase)
+    const handleChange = (dayIndex, mealIndex, value) => {
+        const updatedMeals = meals.map(row => [...row]);
+        updatedMeals[dayIndex][mealIndex] = value; 
+        setMeals(updatedMeals);
+      };
+      
 
   const resetMeals = () => {
     setMeals(Array(7).fill(''));
@@ -53,32 +54,40 @@ function PlannerTable() {
             <tr key={index}>
               <td>{day}</td>
               <td>
-                <input
-                  type="text"
-                  style={plannerStyles.input}
-                  placeholder="Введите блюдо"
-                  value={meals[index][0]} // завтрак
-        onChange={(e) => handleChange(index, 0, e.target.value)}
-                />
+              <select
+  style={styles.input}
+  value={meals[index][0]}
+  onChange={(e) => handleChange(index, 0, e.target.value)}
+>
+  <option value="">Выберите блюдо</option>
+  {mealOptions.map((meal, idx) => (
+    <option key={idx} value={meal}>{meal}</option>
+  ))}
+</select>
               </td>
               <td>
-                <input
-                  type="text"
-                  style={styles.input}
-                  placeholder="Введите блюдо"
-                  value={meals[index][1]} // обед
-        onChange={(e) => handleChange(index, 1, e.target.value)}
-
-                />
+              <select
+  style={styles.input}
+  value={meals[index][1]}
+  onChange={(e) => handleChange(index, 1, e.target.value)}
+>
+  <option value="">Выберите блюдо</option>
+  {mealOptions.map((meal, idx) => (
+    <option key={idx} value={meal}>{meal}</option>
+  ))}
+</select>
               </td>
               <td>
-                <input
-                  type="text"
-                  style={styles.input}
-                  placeholder="Введите блюдо"
-                  value={meals[index][2]} // ужин
-onChange={(e) => handleChange(index, 2, e.target.value)}
-                />
+              <select
+  style={styles.input}
+  value={meals[index][2]}
+  onChange={(e) => handleChange(index, 2, e.target.value)}
+>
+  <option value="">Выберите блюдо</option>
+  {mealOptions.map((meal, idx) => (
+    <option key={idx} value={meal}>{meal}</option>
+  ))}
+</select>
               </td>
             </tr>
           ))}
@@ -99,7 +108,17 @@ onChange={(e) => handleChange(index, 2, e.target.value)}
           <h1 style={styles.title}>🛒 Список покупок:</h1>
           <ul>
             {shoppingList.map((item, index) => (
-             <li key={index} style={[{ listStyle: 'none', backgroundColor: 'purple', }, styles.listItem]} >{item}</li>
+            <li
+            key={index}
+            style={{ 
+              listStyle: 'none', 
+              backgroundColor: 'purple',
+              ...styles.listItem 
+            }}
+          >
+            {item}
+          </li>
+          
             ))}
           </ul>
         </div>
