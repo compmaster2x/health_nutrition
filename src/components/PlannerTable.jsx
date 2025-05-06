@@ -1,41 +1,14 @@
 import ingredientDatabase from '../data/ingredientsDatabase.js'
 import { useState } from 'react';
-
-const styles = {
-    title: {
-      fontFamily: 'Merriweather, serif',
-      fontSize: '24px',
-      marginBottom: '10px',
-    },
-    input: {
-      fontFamily: 'Caveat, cursive',
-      fontSize: '18px',
-      padding: '5px',
-      width: '95%',
-    },
-    button: {
-      fontFamily: 'Merriweather, serif',
-      padding: '10px 20px',
-      fontSize: '16px',
-      cursor: 'pointer',
-    },
-    listItem: {
-      fontFamily: 'Caveat, cursive',
-      backgroundColor: '#c8e6c9',
-      padding: '5px 10px',
-      marginBottom: '5px',
-      borderRadius: '5px',
-      listStyle: 'none',
-      fontSize: '18px',
-    }
-  };
-  
+import plannerStyles from './styles/plannerTableStyles.js';
+import styles from './styles/components.module.css'; // путь поправь, если другой
 
 function PlannerTable() {
   const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
   const [meals, setMeals] = useState(Array(7).fill(null).map(() => ['', '', '']));
   const [shoppingList, setShoppingList] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [darkMode, setDarkMode] = useState(false);
 
   const handleChange = (dayIndex, mealIndex, value) => {
     const updatedMeals = meals.map(row => [...row]);
@@ -62,7 +35,10 @@ function PlannerTable() {
   };
 
   return (
-    <div style={{ padding: '20px' }} className="container">
+    <div
+  className={`${styles.container} ${darkMode ? styles.dark : styles.light}`}
+>
+
       <table border="1" cellPadding="10">
         <thead>
           <tr>
@@ -79,10 +55,10 @@ function PlannerTable() {
               <td>
                 <input
                   type="text"
-                  style={styles.input}
+                  style={plannerStyles.input}
                   placeholder="Введите блюдо"
                   value={meals[index][0]} // завтрак
-onChange={(e) => handleChange(index, 0, e.target.value)}
+        onChange={(e) => handleChange(index, 0, e.target.value)}
                 />
               </td>
               <td>
@@ -91,7 +67,7 @@ onChange={(e) => handleChange(index, 0, e.target.value)}
                   style={styles.input}
                   placeholder="Введите блюдо"
                   value={meals[index][1]} // обед
-onChange={(e) => handleChange(index, 1, e.target.value)}
+        onChange={(e) => handleChange(index, 1, e.target.value)}
 
                 />
               </td>
@@ -110,7 +86,7 @@ onChange={(e) => handleChange(index, 2, e.target.value)}
       </table>
 
       <div style={{ marginTop: '1rem' }}>
-        <button onClick={resetMeals} style={styles.button}>
+        <button onClick={resetMeals} style={plannerStyles.button}>
           Сбросить всё
         </button>
         <button onClick={generateShoppingList} style={styles.button}>
@@ -167,7 +143,9 @@ onChange={(e) => handleChange(index, 2, e.target.value)}
     <li><a href="#">Главная</a></li>
     <li><a href="#">О приложении</a></li>
     <li><a href="#">Контакты</a></li>
-    <li style={{ cursor: 'pointer' }}>dark-mode</li>
+    <li style={{ cursor: 'pointer' }} onClick={() => setDarkMode(!darkMode)}>
+    {darkMode ? 'light-mode' : 'dark-mode'}
+    </li>
   </ul>
 </div>
     </div>
